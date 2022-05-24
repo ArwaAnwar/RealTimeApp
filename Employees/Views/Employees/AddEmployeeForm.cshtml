@@ -1,0 +1,46 @@
+﻿@model List<Employees>
+@{
+    ViewData["Title"] = "AddEmployee";
+}
+
+<div style ="justify-content : center">
+    <form  style ="height = 500px; width = 500px"  class =" align-content-center">Add New Employee
+        <input id ="name" type="text" placeholder = "Enter Name" class ="mb-4 d-block"/>
+        <input id = "age" type="number" placeholder ="Enter Age" class ="mb-4 d-block"/>
+        <input id ="address" type="text" placeholder = "Enter Address" class ="mb-4 d-block"/>
+        <input type="button" value="Add" onclick="newEmp()" />
+
+
+    </form>
+    <br />
+   
+</div>
+
+@section Scripts{
+        <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script>
+    //define Connection
+     connection =  new signalR.HubConnectionBuilder().withUrl("/empHub").build();
+    
+     //start Connection
+     connection.start();
+
+     
+
+     //call service
+     function newEmp()
+     {
+         name = document.getElementById("name").value.toString();
+         age = document.getElementById("age").value.toString();
+         address = document.getElementById("address").value.toString();
+           var obj={
+                name:name,
+                age:age,
+                address:address
+            };
+        
+         connection.invoke("DisplayEmpData", obj);
+
+     }
+    </script>
+}
